@@ -1,0 +1,66 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="x_pos" default="0"/>
+  <arg name="y_pos" default="0"/>
+  <arg name="z_pos" default="0.0"/>
+  <arg name="Yaw_rot" default="-1.5708"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
+  <arg name="map_file" default="$(find ais_turtlebot3burger_obstacle_avoidance)/worlds/empty_map.yaml"/>
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+
+  <!-- Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find ais_turtlebot3burger_obstacle_avoidance)/worlds/Building7_4th_Floor_collision_validation_world.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Turtlebot3 Gazebo-->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"  args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -Y $(arg Yaw_rot) -param robot_description" />
+  
+  <!-- Turtlebot3 -->
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <!-- Obstacle Gazebo-->
+  <param name="obstacle_description" command="cat '$(find ais_turtlebot3burger_obstacle_avoidance)/models/obstacle/model.sdf'"/>
+  <node name="spawn_sdf" pkg="gazebo_ros" type="spawn_model" args="-sdf -param obstacle_description -model obstacle -y -35" />
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- AMCL -->
+  <include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find turtlebot3_navigation)/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turtlebot3_navigation)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/teb_local_planner_params_burger_frontal_CostmapToLinesDBSMCCH.yaml" command="load" />
+    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/teb_move_base_params.yaml" command="load" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>    
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+
+  </node>
+
+  <!-- Rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find ais_turtlebot3burger_obstacle_avoidance)/rviz/teb_turtlebot3_navigation_costmapconversion.rviz"/>
+  </group>
+
+  <!-- Move obstacle and set navigation goal -->
+  <node pkg="ais_turtlebot3burger_obstacle_avoidance" name="collision_validation_movement" type="collision_validation_movement.py" output="screen" args="-os 0.75"/> 
+
+</launch>

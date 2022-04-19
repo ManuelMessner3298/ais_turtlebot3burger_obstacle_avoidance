@@ -1,0 +1,10 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="goal_X" default="3.5"/>
+  <arg name="goal_Y" default="0.0"/>
+  <arg name="goal_rotation_Z" default="0.0"/>
+
+  <!-- Move obstacle and set navigation goal -->
+  <node pkg="ais_turtlebot3burger_obstacle_avoidance" name="navigation_goal_talker" type="navigation_goal_talker.py" output="screen" args="-gx $(arg goal_X) -gy $(arg goal_Y) -rz $(arg goal_rotation_Z)"/> 
+
+</launch>
