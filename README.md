@@ -1,7 +1,12 @@
 # ais_turtlebot3burger_obstacle_avoidance
 
-The ROS package was developed in Ubuntu 18.04 LTS with ROS melodic and gazebo11. The ROS package has only been tested with this setup, but normally it should also run on other Linux distributions. To install, enter the following commands in the terminal:
+The ROS package was developed in Ubuntu 18.04 LTS with ROS melodic and gazebo11. The ROS package has only been tested with this setup, but normally it should also run on other Linux distributions. To install it via the terminal, you have two different options:
 
+Option A: 
+1. Clone this repository in your catkin workspace and build it.
+2. Install all required dependencies via ROS Dependencies (http://wiki.ros.org/rosdep):
+
+Option B: 
 1. Install gazebo (if not yet installed | http://gazebosim.org/tutorials?tut=install_ubuntu): <br>
     $ curl -sSL http://get.gazebosim.org | sh
 2. Instal gazebo_ros: <br>
@@ -12,7 +17,7 @@ The ROS package was developed in Ubuntu 18.04 LTS with ROS melodic and gazebo11.
 4. Install teb_local_planner package (http://wiki.ros.org/teb_local_planner): <br>
     $ sudo apt-get install ros-melodic-teb-local-planner
 5. Clone this repository in your catkin workspace and build it.
-6.	Run the package .launch files.
+6. Run the package .launch files.
 
 
 
