@@ -26,10 +26,10 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find turtlebot3_navigation)/param/costmap_common_params_$(arg model).yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find turtlebot3_navigation)/param/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/teb_local_planner_params_burger_frontal_CostmapToPolygonsDBSConcaveHull.yaml" command="load" />
-    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/teb_move_base_params.yaml" command="load" />
+    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/costmap_params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/costmap_params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/teb_localplanner_params/teb_local_planner_params_burger_frontal_CostmapToPolygonsDBSConcaveHull.yaml" command="load" />
+    <rosparam file="$(find ais_turtlebot3burger_obstacle_avoidance)/param/teb_localplanner_params/teb_move_base_params.yaml" command="load" />
 
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
@@ -41,6 +41,6 @@
   <!-- Rviz -->
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find ais_turtlebot3burger_obstacle_avoidance)/rviz/teb_turtlebot3_navigation_costmapconversion.rviz"/>
+          args="-d $(find ais_turtlebot3burger_obstacle_avoidance)/rviz/teb_localplanner/teb_turtlebot3_navigation_costmapconversion.rviz"/>
   </group>
 </launch>
