@@ -1,7 +1,6 @@
 # ais_turtlebot3burger_obstacle_avoidance
 
-this project is developed in Ubuntu 18.04 LTS with ROS melodic, Gazebo11
-for installation put the following commands in the terminal:
+The ROS package was developed in Ubuntu 18.04 LTS with ROS melodic and gazebo11. The ROS package has only been tested with this setup, but normally it should also run on other Linux distributions. To install, enter the following commands in the terminal:
 
 1. Install gazebo (if not yet installed | http://gazebosim.org/tutorials?tut=install_ubuntu): <br>
     $ curl -sSL http://get.gazebosim.org | sh
