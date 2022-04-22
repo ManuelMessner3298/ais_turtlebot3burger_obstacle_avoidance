@@ -24,8 +24,8 @@ Option B (manually install required dependencies):
 1. Install gazebo (if not yet installed | http://gazebosim.org/tutorials?tut=install_ubuntu): <br>
     $ curl -sSL http://get.gazebosim.org | sh
 2. Instal gazebo_ros: <br>
-    $ sudo apt-get install ros-melodic-gazebo11-ros
-    # in case of gazebo 9: $ sudo apt-get install ros-melodic-gazebo-ros
+    $ sudo apt-get install ros-melodic-gazebo11-ros <br>
+    (in case of gazebo 9: $ sudo apt-get install ros-melodic-gazebo-ros)
 3. Install turtlebot3 packages(https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/#pc-setup): <br>
     $ sudo apt-get install ros-melodic-turtlebot3-msgs <br>
     $ sudo apt-get install ros-melodic-turtlebot3
